@@ -27,8 +27,12 @@ int main(int argc, char *argv[]) {
         numbers[i] = generateRandomInt(0, 100);
     }
 
+
+    cout<<"array inicial: "<<endl;
     printArray(numbers, numberOfElements);
+    cout<<endl<<"mamke heapsort:"<<endl;
     heapsort(numbers, numberOfElements);
+    cout<<endl<<"print array: "<<endl;
     printArray(numbers, numberOfElements);
     assert(validate(numbers, numberOfElements) && "The sort is not ordering all the elements");
 
@@ -48,8 +52,38 @@ void printArray(int *array, size_t size) {
     cout << endl;
 }
 
+void heapify(int arr[], int n, int i)
+{
+    // ve si los hijos son menores que el padre, y cambia si no es asi
+    int mayor = i;
+    int izq = 2*i + 1;
+    int derecha = 2*i + 2;
+
+    //izq mayor que padre
+
+    if (izq < n && arr[izq] > arr[mayor])
+        mayor = izq;
+
+    if (derecha < n && arr[derecha] > arr[mayor])
+        mayor = derecha;
+
+    if (mayor != i)
+    {
+        swap(arr[i], arr[mayor]);
+        heapify(arr, n, mayor);
+    }
+}
+
 void heapsort(int* array, size_t size) {
-    // TODO
+    for (int i = size / 2 - 1; i >= 0; i--)
+        heapify(array, size, i);
+
+    for (int i=size-1; i>=0; i--)
+    {
+        swap(array[0], array[i]);
+
+        heapify(array, i, 0);
+    }
 }
 
 bool validate(int* array, size_t size) {
